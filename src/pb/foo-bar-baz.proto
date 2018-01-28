@@ -1,0 +1,51 @@
+syntax = "proto3"; // Use v3 of the protocol buffer syntax.
+package foo_bar_baz; // The package for THIS protocol buffer file (not the generated go files).
+option go_package = "./pb"; // What to package the generated Go files as and where to output them RELATIVE to the folder provided to the go_out flag on "protoc".
+
+// MODELS
+message FooBarBaz {
+    string foo = 1;
+    int64 bar = 2;
+    bool baz = 3;
+}
+
+// REQUEST AND RESPONSE TYPES
+message UnaryRequest {
+    FooBarBaz fooBarBaz = 1;
+}
+
+message UnaryResponse {
+    bool success = 1;
+}
+
+message ServerStreamRequest {
+    FooBarBaz fooBarBaz = 1;
+}
+
+message ServerStreamResponse {
+    bool success = 1;
+}
+
+message ClientStreamRequest {
+    FooBarBaz fooBarBaz = 1;
+}
+
+message ClientStreamResponse {
+    bool success = 1;
+}
+
+message BidirectionalStreamRequest {
+    FooBarBaz fooBarBaz = 1;
+}
+
+message BidirectionalStreamResponse {
+    bool success = 1;
+}
+
+// SERVICE
+service FooBarBazService {
+    rpc Unary (UnaryRequest) returns (UnaryResponse);
+    rpc ServerStream (ServerStreamRequest) returns (stream ServerStreamResponse);
+    rpc ClientStream (stream ClientStreamRequest) returns (ClientStreamResponse);
+    rpc BidirectionalStream (stream BidirectionalStreamRequest) returns (stream BidirectionalStreamResponse);
+}
